@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include <QPen>
+#include <QPainter>
+
 class CalcTimeWidget : public QWidget
 {
     Q_OBJECT
@@ -20,6 +23,7 @@ public:
 protected:
     void paintEvent(QPaintEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
+    QSize sizeHint() const;
 
 signals:
 
@@ -27,6 +31,10 @@ public slots:
 private:
     QColor mCircleColor;
     QColor mTextColor;
+    int mCircleRadius;
+    int mCircleWidth;
+    QColor mBackgroundColor;
+    QBrush getSolidBrush();
 };
 
 #endif // CALCTIMEWIDGET_H
