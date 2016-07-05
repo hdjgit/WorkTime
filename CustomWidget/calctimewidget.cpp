@@ -20,6 +20,8 @@ CalcTimeWidget::CalcTimeWidget(QWidget *parent) : QWidget(parent)
 
     mMenuWidth=31;
     mMenuHeight=31;
+
+    mCurrentStatus=CalcTimeWidget::STOPPED;
 }
 
 void CalcTimeWidget::setCircleColor(const QColor &color){
@@ -91,14 +93,32 @@ void CalcTimeWidget::drawMenu(QPainter &painter)
     pen.setColor(mTextColor);
     painter.setPen(pen);
 
+    if(mCurrentStatus==CalcTimeWidget::STOPPED){
+        drawRunningImg(painter);
+    }else if(mCurrentStatus==CalcTimeWidget::RUNNING){
+        drawStoppedImg(painter);
+    }
+
+}
+
+void CalcTimeWidget::drawStoppedImg(QPainter &painter)
+{
     int left=(mCircleRadius*2-mMenuWidth)/2;
     int top=mCircleRadius+30;
-//    QRect rect(left,top,mMenuWidth,mMenuHeight);
+    QRect rect(left,top,mMenuWidth,mMenuHeight);
 
-//    painter.fillRect(rect,mTextColor);
+    painter.fillRect(rect,mTextColor);
+}
+
+void CalcTimeWidget::drawRunningImg(QPainter &painter)
+{
+    int left=(mCircleRadius*2-mMenuWidth)/2;
+    int top=mCircleRadius+30;
+
     QPainterPath path;
-    path.moveTo(left,top);
-    path.lineTo(left,top+mMenuHeight);
+    int triangleLeft=left+5;
+    path.moveTo(triangleLeft,top);
+    path.lineTo(triangleLeft,top+mMenuHeight);
     path.lineTo(left+mMenuWidth,top+mMenuHeight/2);
 
     QBrush brush = getSolidBrush();
@@ -121,7 +141,13 @@ void CalcTimeWidget::drawInnerCircle(QPainter& painter)
 
 void CalcTimeWidget::mousePressEvent(QMouseEvent *ev)
 {
-    qDebug()<<"mousePress";
+    //qDebug()<<"mousePress";
+    if(mCurrentStatus==CalcTimeWidget::RUNNING){
+        mCurrentStatus=CalcTimeWidget::STOPPED;
+    }else if(mCurrentStatus==CalcTimeWidget::STOPPED){
+        mCurrentStatus=CalcTimeWidget::RUNNING;
+    }
+    update();
 }
 
 // holds the recommended size for the widget

@@ -26,6 +26,17 @@ public:
     void drawOuterCircle(QPainter& painter);
     void drawTimeText(QPainter& painter);
     void drawMenu(QPainter& painter);
+
+    void drawStoppedImg(QPainter& painter);
+    void drawRunningImg(QPainter& painter);
+
+    enum Status{
+        //中断，等待开启
+        STOPPED,
+        //运行计算中
+        RUNNING
+    };
+
 protected:
     void paintEvent(QPaintEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
@@ -45,6 +56,7 @@ private:
     int mTextHeight;
     int mMenuWidth;
     int mMenuHeight;
+    Status mCurrentStatus;
 };
 
 #endif // CALCTIMEWIDGET_H
