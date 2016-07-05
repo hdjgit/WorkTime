@@ -5,7 +5,9 @@
 
 #include <QPen>
 #include <QPainter>
-
+/*
+ * 显示时间的控件
+ */
 class CalcTimeWidget : public QWidget
 {
     Q_OBJECT

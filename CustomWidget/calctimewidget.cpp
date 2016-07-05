@@ -12,9 +12,9 @@ CalcTimeWidget::CalcTimeWidget(QWidget *parent) : QWidget(parent)
     mCircleRadius=110;
     mCircleWidth=10;
 
-    QPalette pal = palette();
-    pal.setColor(backgroundRole(), mBackgroundColor);
-    setPalette(pal);
+//    QPalette pal = palette();
+//    pal.setColor(backgroundRole(), mBackgroundColor);
+//    setPalette(pal);
 }
 
 void CalcTimeWidget::setCircleColor(const QColor &color){
