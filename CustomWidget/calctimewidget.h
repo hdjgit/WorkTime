@@ -30,6 +30,13 @@ public:
     void drawStoppedImg(QPainter& painter);
     void drawRunningImg(QPainter& painter);
 
+    //开启
+    void start();
+    //中断
+    void breakOff();
+
+    QString getCurrentTime() const;
+
     enum Status{
         //中断，等待开启
         STOPPED,
@@ -41,10 +48,14 @@ protected:
     void paintEvent(QPaintEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
     QSize sizeHint() const;
-
+    //更新时间，重新计算时间
+    void reCalcTime();
+    //根据总的秒数计算分钟以及秒数
+    void calcTime();
 signals:
 
 public slots:
+    void updateTime();
 private:
     QColor mCircleColor;
     QColor mTextColor;
@@ -57,6 +68,16 @@ private:
     int mMenuWidth;
     int mMenuHeight;
     Status mCurrentStatus;
+    //初始时间
+    int mInitSeconds;
+    //总时间
+    int mTotalSeconds;
+    //显示分钟
+    int mCurrentMin;
+    //显示秒数
+    int mCurrentSeconds;
+    //计算时间的定时器
+    QTimer* mCalcTimer;
 };
 
 #endif // CALCTIMEWIDGET_H

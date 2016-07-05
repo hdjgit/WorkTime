@@ -1,5 +1,6 @@
 #include "calctimewidget.h"
 #include <QDebug>
+#include <QTimer>
 
 CalcTimeWidget::CalcTimeWidget(QWidget *parent) : QWidget(parent)
 {
@@ -22,6 +23,10 @@ CalcTimeWidget::CalcTimeWidget(QWidget *parent) : QWidget(parent)
     mMenuHeight=31;
 
     mCurrentStatus=CalcTimeWidget::STOPPED;
+    mInitSeconds=2400;
+    mTotalSeconds=mInitSeconds;
+    mCalcTimer=0;
+    calcTime();
 }
 
 void CalcTimeWidget::setCircleColor(const QColor &color){
@@ -84,8 +89,10 @@ void CalcTimeWidget::drawTimeText(QPainter &painter)
 
     const QRect rectangle = QRect((mCircleRadius*2-mTextWidth)/2,mCircleRadius*2/3,mTextWidth,mTextHeight);
     QRect boundingRect;
-    painter.drawText(rectangle, Qt::AlignCenter, tr("25:00"), &boundingRect);
+    painter.drawText(rectangle, Qt::AlignCenter, getCurrentTime(), &boundingRect);
 }
+
+
 
 void CalcTimeWidget::drawMenu(QPainter &painter)
 {
@@ -95,8 +102,10 @@ void CalcTimeWidget::drawMenu(QPainter &painter)
 
     if(mCurrentStatus==CalcTimeWidget::STOPPED){
         drawRunningImg(painter);
+
     }else if(mCurrentStatus==CalcTimeWidget::RUNNING){
         drawStoppedImg(painter);
+
     }
 
 }
@@ -128,6 +137,27 @@ void CalcTimeWidget::drawRunningImg(QPainter &painter)
     painter.drawPath(path);
 }
 
+void CalcTimeWidget::start()
+{
+    mCurrentStatus=CalcTimeWidget::RUNNING;
+    if(mCalcTimer==0){
+        mCalcTimer=new QTimer(this);
+        connect(mCalcTimer,SIGNAL(timeout()),this,SLOT(updateTime()));
+        mCalcTimer->start(1000);
+    }
+}
+
+void CalcTimeWidget::breakOff()
+{
+    mCurrentStatus=CalcTimeWidget::STOPPED;
+}
+
+QString CalcTimeWidget::getCurrentTime() const
+{
+    return QString("%1:%2").arg(mCurrentMin,2,10,QLatin1Char('0')).arg(mCurrentSeconds,2,10,QLatin1Char('0'));
+    //return curTime.sprintf("%2d:%2d",mCurrentMin,mCurrentSeconds);
+}
+
 void CalcTimeWidget::drawInnerCircle(QPainter& painter)
 {
     //使用不同的brush来使得
@@ -143,9 +173,11 @@ void CalcTimeWidget::mousePressEvent(QMouseEvent *ev)
 {
     //qDebug()<<"mousePress";
     if(mCurrentStatus==CalcTimeWidget::RUNNING){
-        mCurrentStatus=CalcTimeWidget::STOPPED;
+
+        breakOff();
     }else if(mCurrentStatus==CalcTimeWidget::STOPPED){
-        mCurrentStatus=CalcTimeWidget::RUNNING;
+
+        start();
     }
     update();
 }
@@ -154,5 +186,24 @@ void CalcTimeWidget::mousePressEvent(QMouseEvent *ev)
 QSize CalcTimeWidget::sizeHint() const
 {
     return QSize(mCircleRadius*2+2,mCircleRadius*2+2);
+}
+
+void CalcTimeWidget::calcTime()
+{
+    mCurrentMin=mTotalSeconds/60;
+    mCurrentSeconds=mTotalSeconds%60;
+}
+
+void CalcTimeWidget::reCalcTime()
+{
+    mTotalSeconds-=1;
+    mCurrentMin=mTotalSeconds/60;
+    mCurrentSeconds=mTotalSeconds%60;
+}
+
+void CalcTimeWidget::updateTime()
+{
+    reCalcTime();
+    update();
 }
 
