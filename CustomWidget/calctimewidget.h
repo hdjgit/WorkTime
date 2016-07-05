@@ -6,12 +6,27 @@
 class CalcTimeWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QColor circleColor READ circleColor WRITE setCircleColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 public:
     explicit CalcTimeWidget(QWidget *parent = 0);
+
+    //set&get
+    void setCircleColor(const QColor &color);
+    QColor circleColor() const{return mCircleColor;}
+
+    void setTextColor(const QColor &color);
+    QColor textColor() const{return mTextColor;}
+protected:
+    void paintEvent(QPaintEvent* ev);
+    void mousePressEvent(QMouseEvent* ev);
 
 signals:
 
 public slots:
+private:
+    QColor mCircleColor;
+    QColor mTextColor;
 };
 
 #endif // CALCTIMEWIDGET_H
