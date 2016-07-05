@@ -22,6 +22,10 @@ public:
 
     void setTextColor(const QColor &color);
     QColor textColor() const{return mTextColor;}
+    void drawInnerCircle(QPainter& painter);
+    void drawOuterCircle(QPainter& painter);
+    void drawTimeText(QPainter& painter);
+    void drawMenu(QPainter& painter);
 protected:
     void paintEvent(QPaintEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
@@ -37,6 +41,10 @@ private:
     int mCircleWidth;
     QColor mBackgroundColor;
     QBrush getSolidBrush();
+    int mTextWidth;
+    int mTextHeight;
+    int mMenuWidth;
+    int mMenuHeight;
 };
 
 #endif // CALCTIMEWIDGET_H
