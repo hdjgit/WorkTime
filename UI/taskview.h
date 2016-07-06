@@ -2,7 +2,7 @@
 #define TASKVIEW_H
 
 #include <QWidget>
-
+#include "Util/dbutil.h"
 class TaskView : public QWidget
 {
     Q_OBJECT
@@ -12,6 +12,8 @@ public:
 signals:
 
 public slots:
+private:
+    DbUtil* mDbUtil;
 };
 
 #endif // TASKVIEW_H
