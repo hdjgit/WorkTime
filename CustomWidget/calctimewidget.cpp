@@ -23,7 +23,8 @@ CalcTimeWidget::CalcTimeWidget(QWidget *parent) : QWidget(parent)
     mMenuHeight=31;
 
     mCurrentStatus=CalcTimeWidget::STOPPED;
-    mInitSeconds=2400;
+    //mInitSeconds=2400;
+    mInitSeconds=10; //测试用
     mTotalSeconds=mInitSeconds;
     mCalcTimer=0;
     calcTime();
@@ -203,6 +204,11 @@ void CalcTimeWidget::reCalcTime()
 
 void CalcTimeWidget::updateTime()
 {
+    //测试用，看定时器能否停止
+    //避免到0的时候，继续往下减
+    if(mTotalSeconds==1){
+        mCalcTimer->stop();
+    }
     reCalcTime();
     update();
 }
