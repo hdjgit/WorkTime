@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include <QLabel>
 
-class CalcTimeWidget;
-class QGridLayout;
-class QVBoxLayout;
+//class CalcTimeWidget;
+//class QGridLayout;
+//class QVBoxLayout;
+class WTMainWidget;
 
 class WTMainWindow : public QMainWindow
 {
@@ -14,16 +15,17 @@ class WTMainWindow : public QMainWindow
 public:
     explicit WTMainWindow(QWidget *parent = 0);
 
-    void initMainWindowColor();
+    void initMainWindowBgColor();
 
 signals:
 
 public slots:
 private:
-    CalcTimeWidget* mCalcTimeWidget;
+    //CalcTimeWidget* mCalcTimeWidget;
     //QGridLayout* mGridLayout;
-    QVBoxLayout* mVBoxLayout;
-    QLabel* mTopic;
+    //QVBoxLayout* mVBoxLayout;
+    //QLabel* mTopic;
+    WTMainWidget* mMainWidget;
 };
 
 #endif // WTMAINWINDOW_H
