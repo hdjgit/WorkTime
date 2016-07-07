@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Util/dbutil.h"
+#include "Dao/activitylistdao.h"
 class TaskView : public QWidget
 {
     Q_OBJECT
@@ -13,7 +14,7 @@ signals:
 
 public slots:
 private:
-    DbUtil* mDbUtil;
+    //ActivityListDao* mActivityListDao;
 };
 
 #endif // TASKVIEW_H

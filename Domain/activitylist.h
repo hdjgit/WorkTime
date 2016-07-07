@@ -6,6 +6,10 @@ class ActivityList
 {
 public:
     ActivityList();
+    ActivityList(QString activityName,
+                 QString addTime,
+                 int priority):activityName(activityName),
+                    addTime(addTime),priority(priority){};
 
     int getPriority() const;
     void setPriority(int value);

@@ -7,7 +7,8 @@ HEADERS += \
     UI/clockview.h \
     UI/taskview.h \
     Domain/activitylist.h \
-    Util/dbutil.h
+    Util/dbutil.h \
+    Dao/activitylistdao.h
 
 SOURCES += \
     CustomWidget/calctimewidget.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     UI/clockview.cpp \
     UI/taskview.cpp \
     Domain/activitylist.cpp \
-    Util/dbutil.cpp
+    Util/dbutil.cpp \
+    Dao/activitylistdao.cpp
 
 QT+=widgets gui sql
 

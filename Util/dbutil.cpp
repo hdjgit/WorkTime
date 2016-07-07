@@ -1,39 +1,37 @@
 #include "dbutil.h"
-#include <QMessageBox>
-#include <QtSql/QSqlError>
-DbUtil::DbUtil(QObject *parent):QObject(parent)
+
+DbUtil::DbUtil()
 {
 
 }
-
-bool DbUtil::createConnection()
+const QString DbUtil::DATABASE_CONNECT_NAME("WorkTimeConnect");
+const QString DbUtil::DATABASE_NAME("WorkTime");
+QSqlDatabase DbUtil::getDatabase(bool &success)
 {
-    mDb=QSqlDatabase::addDatabase("QMYSQL");
-    mDb.setHostName("127.0.0.1");
-    mDb.setUserName("root");
-    mDb.setPassword("huangduanji");
-    mDb.setDatabaseName("WorkTime");
-    if(!mDb.open()){
-        showError();
-        return false;
+    QSqlDatabase db;
+    if (!QSqlDatabase::contains(DbUtil::DATABASE_CONNECT_NAME)) {
+        db = QSqlDatabase::addDatabase("QMYSQL", DbUtil::DATABASE_CONNECT_NAME);
+        db.setDatabaseName(DbUtil::DATABASE_NAME);
+        db.setHostName("127.0.0.1");
+        db.setUserName("root");
+        db.setPassword("huangduanji");
+    } else {
+        db = QSqlDatabase::database(DbUtil::DATABASE_CONNECT_NAME, true);
     }
-    return true;
-}
-
-QSqlQuery DbUtil::execQuery(QString sql)
-{
-    if(createConnection()){
-        QSqlQuery query(mDb);
-        query.exec(sql);
-        return query;
+    if (!db.isOpen()) {
+        bool result = db.open();
+        if(result){
+            success=true;
+        }else{
+            success=false;
+        }
     }else{
-        showError();
-        return QSqlQuery();
+        success=false;
     }
+    return db;
 }
 
-void DbUtil::showError()
+void DbUtil::removeDatabase()
 {
-    QMessageBox::critical(0,QObject::tr("Database Error"),
-                          mDb.lastError().text());
+    QSqlDatabase::removeDatabase(DbUtil::DATABASE_CONNECT_NAME);
 }

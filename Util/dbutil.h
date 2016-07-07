@@ -1,18 +1,15 @@
 #ifndef DBUTIL_H
 #define DBUTIL_H
 #include <QtSql>
-#include <QObject>
 
-class DbUtil:QObject
+class DbUtil
 {
-    Q_OBJECT
 public:
-    DbUtil(QObject *parent = 0);
-    bool createConnection();
-    QSqlQuery execQuery(QString sql);
-    void showError();
-private:
-    QSqlDatabase mDb;
+    DbUtil();
+    static QSqlDatabase getDatabase(bool &success);
+    static const QString DATABASE_CONNECT_NAME;
+    static const QString DATABASE_NAME;
+    static void removeDatabase();
 };
 
 #endif // DBUTIL_H
