@@ -28,6 +28,9 @@ WTMainWidget::WTMainWidget(QWidget *parent) : QWidget(parent)
     initTab();
 
     QLineEdit* inputLineEdit=new QLineEdit();
+    //自定义控件背景还是很奇怪
+    //inputLineEdit->setStyleSheet("border-image:url(:/img/textfield.png);"
+                                 //"height:50px;");
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(inputLineEdit);
     layout->addWidget(mTabWidget);
