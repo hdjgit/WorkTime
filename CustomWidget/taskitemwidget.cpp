@@ -1,7 +1,8 @@
 #include "taskitemwidget.h"
 #include <QCheckBox>
 #include <QHBoxLayout>
-TaskItemWidget::TaskItemWidget(QWidget *parent) : QWidget(parent)
+#include <QLabel>
+void TaskItemWidget::initCheckBox()
 {
     mCheckBox=new QCheckBox;
     mCheckBox->setStyleSheet("QCheckBox::indicator:checked"
@@ -15,7 +16,21 @@ TaskItemWidget::TaskItemWidget(QWidget *parent) : QWidget(parent)
                              "width:18px;"
                              "height:18px;"
                              "}");
+}
+
+void TaskItemWidget::setTaskName(QString taskName)
+{
+    mTaskName->setText(taskName);
+}
+
+TaskItemWidget::TaskItemWidget(QWidget *parent) : QWidget(parent)
+{
+    initCheckBox();
+
+    mTaskName=new QLabel;
+
     QHBoxLayout* hBoxLayout=new QHBoxLayout;
     hBoxLayout->addWidget(mCheckBox);
+    hBoxLayout->addWidget(mTaskName);
     this->setLayout(hBoxLayout);
 }

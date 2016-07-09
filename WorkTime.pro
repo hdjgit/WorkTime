@@ -9,9 +9,10 @@ HEADERS += \
     Domain/activitylist.h \
     Util/dbutil.h \
     Dao/activitylistdao.h \
-    Thread/loadactivitylistthread.h \
     CustomWidget/customlistlayout.h \
-    CustomWidget/taskitemwidget.h
+    CustomWidget/taskitemwidget.h \
+    Dialog/addtaskdialog.h \
+    Util/timeutil.h
 
 SOURCES += \
     CustomWidget/calctimewidget.cpp \
@@ -23,9 +24,10 @@ SOURCES += \
     Domain/activitylist.cpp \
     Util/dbutil.cpp \
     Dao/activitylistdao.cpp \
-    Thread/loadactivitylistthread.cpp \
     CustomWidget/customlistlayout.cpp \
-    CustomWidget/taskitemwidget.cpp
+    CustomWidget/taskitemwidget.cpp \
+    Dialog/addtaskdialog.cpp \
+    Util/timeutil.cpp
 
 QT+=widgets gui sql
 

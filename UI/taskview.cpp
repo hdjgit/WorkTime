@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include "CustomWidget/taskitemwidget.h"
+#include "Dialog/addtaskdialog.h"
 //QListWidget * TaskView::initListWidget()
 //{
 //    QListWidget* listWidget=new QListWidget;
@@ -49,7 +50,12 @@ TaskView::TaskView(QWidget *parent) : QWidget(parent)
     //水平的按钮
     QHBoxLayout* hBoxLayout=new QHBoxLayout;
     QPushButton* confirmBtn=new QPushButton("确定");
+    QPushButton* addBtn=new QPushButton("添加");
+    connect(addBtn,SIGNAL(clicked(bool)),this,SLOT(createAddTaskDialog()));
+    hBoxLayout->addStretch();
+    hBoxLayout->addWidget(addBtn);
     hBoxLayout->addWidget(confirmBtn);
+    hBoxLayout->addStretch();
 
     vBoxLayout->addWidget(mScrollArea);
     vBoxLayout->addStretch();
@@ -72,7 +78,8 @@ void TaskView::initListLayout()
     //its maximum size is set to maximumSize().
     mCustomListLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     //listLayout->SetFixedSize
-    TaskItemWidget* edit1=new TaskItemWidget;
+    TaskItemWidget* taskItem1=new TaskItemWidget;
+    taskItem1->setTaskName("这是第一个任务");
     QLabel* edit2=new QLabel("text2");
     QLabel* edit3=new QLabel("text3");
     QLabel* edit4=new QLabel("text4");
@@ -91,7 +98,7 @@ void TaskView::initListLayout()
     QLabel* edit117=new QLabel("text117");
     QLabel* edit118=new QLabel("text118");
     QLabel* edit119=new QLabel("text119");
-    mCustomListLayout->append(edit1);
+    mCustomListLayout->append(taskItem1);
     mCustomListLayout->append(edit2);
     mCustomListLayout->append(edit3);
     mCustomListLayout->append(edit4);
@@ -113,6 +120,13 @@ void TaskView::initListLayout()
 
     mActivityListWidget=new QWidget;
     mActivityListWidget->setLayout(mCustomListLayout);
+}
+
+void TaskView::createAddTaskDialog()
+{
+    qDebug()<<"create add task dialog";
+    AddTaskDialog* mAddTaskDialog=new AddTaskDialog(this);
+    mAddTaskDialog->show();
 }
 
 

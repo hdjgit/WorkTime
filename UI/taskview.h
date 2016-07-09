@@ -9,6 +9,7 @@
 #include "CustomWidget/customlistlayout.h"
 
 class QScrollArea;
+class AddTaskDialog;
 class TaskView : public QWidget
 {
     Q_OBJECT
@@ -24,11 +25,13 @@ public:
 signals:
 
 public slots:
+    void createAddTaskDialog();
 private:
     //ActivityListDao* mActivityListDao;
     QScrollArea* mScrollArea;
     QWidget* mActivityListWidget;
     CustomListLayout* mCustomListLayout;
+    //AddTaskDialog* mAddTaskDialog;
 };
 
 #endif // TASKVIEW_H
