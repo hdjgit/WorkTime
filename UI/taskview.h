@@ -7,6 +7,8 @@
 #include <QListWidget>
 #include <QVBoxLayout>
 #include "CustomWidget/customlistlayout.h"
+
+class QScrollArea;
 class TaskView : public QWidget
 {
     Q_OBJECT
@@ -15,11 +17,18 @@ public:
 
     //QListWidget* initListWidget();
     //QListView* initListView();
+    //初始化滚动区域
+    void initScrollArea();
+    //初始化ListLayout
+    void initListLayout();
 signals:
 
 public slots:
 private:
     //ActivityListDao* mActivityListDao;
+    QScrollArea* mScrollArea;
+    QWidget* mActivityListWidget;
+    CustomListLayout* mCustomListLayout;
 };
 
 #endif // TASKVIEW_H

@@ -10,7 +10,8 @@ HEADERS += \
     Util/dbutil.h \
     Dao/activitylistdao.h \
     Thread/loadactivitylistthread.h \
-    CustomWidget/customlistlayout.h
+    CustomWidget/customlistlayout.h \
+    CustomWidget/taskitemwidget.h
 
 SOURCES += \
     CustomWidget/calctimewidget.cpp \
@@ -23,7 +24,8 @@ SOURCES += \
     Util/dbutil.cpp \
     Dao/activitylistdao.cpp \
     Thread/loadactivitylistthread.cpp \
-    CustomWidget/customlistlayout.cpp
+    CustomWidget/customlistlayout.cpp \
+    CustomWidget/taskitemwidget.cpp
 
 QT+=widgets gui sql
 

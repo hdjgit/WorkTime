@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QScrollArea>
+#include "CustomWidget/taskitemwidget.h"
 //QListWidget * TaskView::initListWidget()
 //{
 //    QListWidget* listWidget=new QListWidget;
@@ -37,18 +38,41 @@ TaskView::TaskView(QWidget *parent) : QWidget(parent)
     //最外面的水平大的布局
     QVBoxLayout* vBoxLayout=new QVBoxLayout;
 
-    QScrollArea* area=new QScrollArea();
 
-    //area->setSizePolicy();
-    area->setWidgetResizable(false);
-    area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    CustomListLayout* listLayout=new CustomListLayout(area);
+    initListLayout();
+
+    initScrollArea();
+
+
+
+
+    //水平的按钮
+    QHBoxLayout* hBoxLayout=new QHBoxLayout;
+    QPushButton* confirmBtn=new QPushButton("确定");
+    hBoxLayout->addWidget(confirmBtn);
+
+    vBoxLayout->addWidget(mScrollArea);
+    vBoxLayout->addStretch();
+    vBoxLayout->addLayout(hBoxLayout);
+    this->setLayout(vBoxLayout);
+}
+
+void TaskView::initScrollArea()
+{
+    mScrollArea=new QScrollArea();
+    mScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    mScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    mScrollArea->setWidget(mActivityListWidget);
+}
+
+void TaskView::initListLayout()
+{
+    mCustomListLayout=new CustomListLayout(mScrollArea);
     //QLayout::SetMinAndMaxSize	5	The main widget's minimum size is set to minimumSize() and
     //its maximum size is set to maximumSize().
-    listLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    mCustomListLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     //listLayout->SetFixedSize
-    QLabel* edit1=new QLabel("text1");
+    TaskItemWidget* edit1=new TaskItemWidget;
     QLabel* edit2=new QLabel("text2");
     QLabel* edit3=new QLabel("text3");
     QLabel* edit4=new QLabel("text4");
@@ -67,41 +91,28 @@ TaskView::TaskView(QWidget *parent) : QWidget(parent)
     QLabel* edit117=new QLabel("text117");
     QLabel* edit118=new QLabel("text118");
     QLabel* edit119=new QLabel("text119");
-    listLayout->append(edit1);
-    listLayout->append(edit2);
-    listLayout->append(edit3);
-    listLayout->append(edit4);
-    listLayout->append(edit5);
-    listLayout->append(edit6);
-    listLayout->append(edit7);
-    listLayout->append(edit8);
-    listLayout->append(edit9);
-    listLayout->append(edit15);
-    listLayout->append(edit16);
-    listLayout->append(edit17);
-    listLayout->append(edit18);
-    listLayout->append(edit19);
-    listLayout->append(edit115);
-    listLayout->append(edit116);
-    listLayout->append(edit117);
-    listLayout->append(edit118);
-    listLayout->append(edit119);
-    area->setMaximumHeight(400);
+    mCustomListLayout->append(edit1);
+    mCustomListLayout->append(edit2);
+    mCustomListLayout->append(edit3);
+    mCustomListLayout->append(edit4);
+    mCustomListLayout->append(edit5);
+    mCustomListLayout->append(edit6);
+    mCustomListLayout->append(edit7);
+    mCustomListLayout->append(edit8);
+    mCustomListLayout->append(edit9);
+    mCustomListLayout->append(edit15);
+    mCustomListLayout->append(edit16);
+    mCustomListLayout->append(edit17);
+    mCustomListLayout->append(edit18);
+    mCustomListLayout->append(edit19);
+    mCustomListLayout->append(edit115);
+    mCustomListLayout->append(edit116);
+    mCustomListLayout->append(edit117);
+    mCustomListLayout->append(edit118);
+    mCustomListLayout->append(edit119);
 
-    //area->widget()->setLayout(listLayout);
-    QWidget* widget=new QWidget;
-    widget->setLayout(listLayout);
-    area->setWidget(widget);
-
-    //水平的按钮
-    QHBoxLayout* hBoxLayout=new QHBoxLayout;
-    QPushButton* confirmBtn=new QPushButton("确定");
-    hBoxLayout->addWidget(confirmBtn);
-
-    vBoxLayout->addWidget(area);
-    vBoxLayout->addStretch();
-    vBoxLayout->addLayout(hBoxLayout);
-    this->setLayout(vBoxLayout);
+    mActivityListWidget=new QWidget;
+    mActivityListWidget->setLayout(mCustomListLayout);
 }
 
 

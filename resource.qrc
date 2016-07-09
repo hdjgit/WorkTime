@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>img/textfield.png</file>
+        <file>img/checkbox.png</file>
+        <file>img/checkbox_checked.png</file>
     </qresource>
 </RCC>
