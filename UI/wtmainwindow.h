@@ -16,7 +16,7 @@ public:
     explicit WTMainWindow(QWidget *parent = 0);
 
     void initMainWindowBgColor();
-
+    void closeEvent(QCloseEvent *ev);
 signals:
 
 public slots:

@@ -12,6 +12,9 @@
 #include <QScrollArea>
 #include "CustomWidget/taskitemwidget.h"
 #include "Dialog/addtaskdialog.h"
+#include <QThread>
+#include "Thread/loadactivitylistdatathread.h"
+#include "Service/loadactivitylistdata.h"
 //QListWidget * TaskView::initListWidget()
 //{
 //    QListWidget* listWidget=new QListWidget;
@@ -20,6 +23,9 @@
 //    listWidget->setItemWidget(item,lineEdit);
 //    return listWidget;
 //}
+
+
+
 
 TaskView::TaskView(QWidget *parent) : QWidget(parent)
 {
@@ -39,11 +45,20 @@ TaskView::TaskView(QWidget *parent) : QWidget(parent)
     //最外面的水平大的布局
     QVBoxLayout* vBoxLayout=new QVBoxLayout;
 
+    //LoadActivityListDataThread loadDataThread;
+    //loadDataThread.start();
+    //connect(&loadDataThread,SIGNAL(dataLoaded()),this,SLOT(updateList()));
 
-    initListLayout();
+    LoadActivityListData* service=new LoadActivityListData;
+    service->moveToThread(&mLoadDataThread);
 
+    connect(&mLoadDataThread,&QThread::finished,service,&QObject::deleteLater);
+    connect(this, &TaskView::startLoadData, service, &LoadActivityListData::loadData);
+    connect(service, &LoadActivityListData::dataLoaded, this, &TaskView::updateList);
+    mLoadDataThread.start();
+
+    startLoadData();
     initScrollArea();
-
 
 
 
@@ -63,12 +78,18 @@ TaskView::TaskView(QWidget *parent) : QWidget(parent)
     this->setLayout(vBoxLayout);
 }
 
+TaskView::~TaskView()
+{
+    mLoadDataThread.quit();
+    mLoadDataThread.wait();
+}
+
 void TaskView::initScrollArea()
 {
     mScrollArea=new QScrollArea();
     mScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     mScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    mScrollArea->setWidget(mActivityListWidget);
+
 }
 
 void TaskView::initListLayout()
@@ -77,49 +98,15 @@ void TaskView::initListLayout()
     //QLayout::SetMinAndMaxSize	5	The main widget's minimum size is set to minimumSize() and
     //its maximum size is set to maximumSize().
     mCustomListLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    //listLayout->SetFixedSize
-    TaskItemWidget* taskItem1=new TaskItemWidget;
-    taskItem1->setTaskName("这是第一个任务");
-    QLabel* edit2=new QLabel("text2");
-    QLabel* edit3=new QLabel("text3");
-    QLabel* edit4=new QLabel("text4");
-    QLabel* edit5=new QLabel("text5");
-    QLabel* edit6=new QLabel("text6");
-    QLabel* edit7=new QLabel("text7");
-    QLabel* edit8=new QLabel("text8");
-    QLabel* edit9=new QLabel("text9");
-    QLabel* edit15=new QLabel("text15");
-    QLabel* edit16=new QLabel("text16");
-    QLabel* edit17=new QLabel("text17");
-    QLabel* edit18=new QLabel("text18");
-    QLabel* edit19=new QLabel("text19");
-    QLabel* edit115=new QLabel("text115");
-    QLabel* edit116=new QLabel("text116");
-    QLabel* edit117=new QLabel("text117");
-    QLabel* edit118=new QLabel("text118");
-    QLabel* edit119=new QLabel("text119");
-    mCustomListLayout->append(taskItem1);
-    mCustomListLayout->append(edit2);
-    mCustomListLayout->append(edit3);
-    mCustomListLayout->append(edit4);
-    mCustomListLayout->append(edit5);
-    mCustomListLayout->append(edit6);
-    mCustomListLayout->append(edit7);
-    mCustomListLayout->append(edit8);
-    mCustomListLayout->append(edit9);
-    mCustomListLayout->append(edit15);
-    mCustomListLayout->append(edit16);
-    mCustomListLayout->append(edit17);
-    mCustomListLayout->append(edit18);
-    mCustomListLayout->append(edit19);
-    mCustomListLayout->append(edit115);
-    mCustomListLayout->append(edit116);
-    mCustomListLayout->append(edit117);
-    mCustomListLayout->append(edit118);
-    mCustomListLayout->append(edit119);
 
+    foreach (ActivityList* activity, mActivityLists) {
+        TaskItemWidget* taskItem=new TaskItemWidget;
+        taskItem->setTaskName(activity->getActivityName());
+        mCustomListLayout->append(taskItem);
+    }
     mActivityListWidget=new QWidget;
     mActivityListWidget->setLayout(mCustomListLayout);
+    mScrollArea->setWidget(mActivityListWidget);
 }
 
 void TaskView::createAddTaskDialog()
@@ -128,5 +115,15 @@ void TaskView::createAddTaskDialog()
     AddTaskDialog* mAddTaskDialog=new AddTaskDialog(this);
     mAddTaskDialog->show();
 }
+
+void TaskView::updateList(QList<ActivityList*> lists)
+{
+    qDebug()<<"update view";
+    //initListLayout();
+}
+
+
+
+
 
 

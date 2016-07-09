@@ -4,6 +4,7 @@
 #include <QLabel>
 #include "CustomWidget/calctimewidget.h"
 #include "CustomWidget/wtmainwidget.h"
+#include "Util/dbutil.h"
 
 
 void WTMainWindow::initMainWindowBgColor()
@@ -14,6 +15,12 @@ void WTMainWindow::initMainWindowBgColor()
     palette.setColor(backgroundRole(), QColor(255,255,255));
 
     setPalette(palette);
+}
+
+void WTMainWindow::closeEvent(QCloseEvent *ev)
+{
+    qDebug()<<"close event";
+    //DbUtil::removeDatabase();
 }
 
 WTMainWindow::WTMainWindow(QWidget *parent) : QMainWindow(parent)

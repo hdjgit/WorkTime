@@ -46,7 +46,7 @@ void AddTaskDialog::addTaskToDb()
     QApplication::setOverrideCursor(Qt::WaitCursor);
     //qDebug()<<"add task to db";
     ActivityList activityList(mNameEdit->text(),TimeUtil::getCurrentTime(),0);
-    ActivityListDao::saveActivityList(activityList);
+    ActivityListDao().saveActivityList(activityList);
     QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
     QApplication::restoreOverrideCursor();
     this->close();

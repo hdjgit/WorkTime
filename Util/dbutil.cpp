@@ -19,13 +19,22 @@ QSqlDatabase DbUtil::getDatabase(bool &success)
         db = QSqlDatabase::database(DbUtil::DATABASE_CONNECT_NAME, true);
     }
     if (!db.isOpen()) {
-        bool result = db.open();
-        if(result){
-            success=true;
-        }else{
-            success=false;
+        qDebug()<<"db.isOpen:"<<db.isOpen();
+        qDebug()<<"error:"<<db.lastError().text();
+        try{
+            bool result = db.open();
+            if(result){
+                success=true;
+            }else{
+                success=false;
+            }
+        }catch(std::exception e){
+            qDebug()<<"catch an exception";
+            qDebug()<<e.what();
         }
+
     }else{
+        qDebug()<<db.lastError().text();
         success=false;
     }
     return db;

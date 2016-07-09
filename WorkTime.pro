@@ -12,7 +12,9 @@ HEADERS += \
     CustomWidget/customlistlayout.h \
     CustomWidget/taskitemwidget.h \
     Dialog/addtaskdialog.h \
-    Util/timeutil.h
+    Util/timeutil.h \
+    Thread/loadactivitylistdatathread.h \
+    Service/loadactivitylistdata.h
 
 SOURCES += \
     CustomWidget/calctimewidget.cpp \
@@ -27,7 +29,9 @@ SOURCES += \
     CustomWidget/customlistlayout.cpp \
     CustomWidget/taskitemwidget.cpp \
     Dialog/addtaskdialog.cpp \
-    Util/timeutil.cpp
+    Util/timeutil.cpp \
+    Thread/loadactivitylistdatathread.cpp \
+    Service/loadactivitylistdata.cpp
 
 QT+=widgets gui sql
 
